@@ -41,17 +41,18 @@ require './alphabet_to_braille'
 puts ALPHABET_TO_BRAILLE.values.length
 puts ALPHABET_TO_BRAILLE.values.uniq.length
 
-text = "Hello World! My name is Beth. How are you?"
-text_chars = text.split("")
-puts text_chars.to_s
+# text = "Hello World! My name is Beth.\nHow are you?\n"
+text = "Hello,\nWorld!\n"
+text_chars = text.chomp.gsub("\n", " ").split("")
+# puts text_chars.to_s
 # text_chars.map { |char| alphabet_to_braille[char] }
 text_braille = []
 text_chars.each do |char|
   # binding.pry
-  text_braille << ALPHABET_TO_BRAILLE[:cap] if char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
+  text_braille << ALPHABET_TO_BRAILLE[:capital] if char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
   text_braille << ALPHABET_TO_BRAILLE[char.downcase]
 end
-# puts text_braille.to_s
+puts text_braille.to_s
 
 # test = [[["a", "a"], ["b", "b"], ["c", "c"]],
 #        [["a", "a"], ["b", "b"], ["c", "c"]],
@@ -69,7 +70,7 @@ end
 
 
 lines = [line1.flatten.join, line2.flatten.join, line3.flatten.join]
-puts lines
+puts lines.to_s
 puts lines[0].length
 
 

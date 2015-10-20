@@ -11,4 +11,50 @@ class NightWriterTest < Minitest::Test
     assert a_night_writer.respond_to?(:encode_to_braille)
     assert a_night_writer.respond_to?(:encode_file_to_braille)
   end
+
+  def test_split_text_to_chars
+    text = "Hello,\nWorld!\n"
+    a_night_writer = NightWriter.new
+    assert_equal ["H", "e", "l", "l", "o", ",", " ", "W", "o", "r", "l", "d", "!"], a_night_writer.split_text_to_chars(text)
+  end
+
+  def test_capital_letter?
+    a_night_writer = NightWriter.new
+    assert a_night_writer.capital_letter?("A")
+  end
+
+  def test_map_chars_to_braille
+    text = "Hello,\nWorld!\n"
+    a_night_writer = NightWriter.new
+    assert_equal [[[".", "."], [".", "."], [".", "0"]],
+                  [["0", "."], ["0", "0"], [".", "."]],
+                  [["0", "."], [".", "0"], [".", "."]],
+                  [["0", "."], ["0", "."], ["0", "."]],
+                  [["0", "."], ["0", "."], ["0", "."]],
+                  [["0", "."], [".", "0"], ["0", "."]],
+                  [[".", "."], ["0", "."], [".", "."]],
+                  [[".", "."], [".", "."], [".", "."]],
+                  [[".", "."], [".", "."], [".", "0"]],
+                  [[".", "0"], ["0", "0"], [".", "0"]],
+                  [["0", "."], [".", "0"], ["0", "."]],
+                  [["0", "."], ["0", "0"], ["0", "."]],
+                  [["0", "."], ["0", "."], ["0", "."]],
+                  [["0", "0"], [".", "0"], [".", "."]],
+                  [[".", "."], ["0", "0"], ["0", "."]]], a_night_writer.map_chars_to_braille(text)
+  end
+
+  def test_format_braille_to_lines
+    text = "Hello,\nWorld!\n"
+    a_night_writer = NightWriter.new
+    assert_equal ["..0.0.0.0.0........00.0.0.00..",
+                  "..00.00.0..00.....00.0000..000",
+                  ".0....0.0.0......0.00.0.0...0."], a_night_writer.format_braille_to_lines(text)
+  end
+
+  def test_wrap_braille_lines_after_80_chars
+    text = "Hello World! My name is Beth.\nHow are you?\n"
+    a_night_writer = NightWriter.new
+    assert_equal "something", a_night_writer.wrap_braille_lines_after_80_chars(text)
+  end
+
 end

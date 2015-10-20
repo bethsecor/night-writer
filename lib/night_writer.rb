@@ -31,9 +31,40 @@ class NightWriter
     # do the magic
     # send out an OUTPUT string
   end
+
+  def split_text_to_chars(text)
+    text.chomp.gsub("\n", " ").split("")
+  end
+
+  def capital_letter?(char)
+    char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
+  end
+
+  def map_chars_to_braille(text)
+    text_chars = split_text_to_chars(text)
+    text_braille = []
+    text_chars.each do |char|
+      text_braille << ALPHABET_TO_BRAILLE[:capital] if capital_letter?(char)
+      text_braille << ALPHABET_TO_BRAILLE[char.downcase]
+    end
+    text_braille
+  end
+
+  def format_braille_to_lines(text)
+    braille = map_chars_to_braille(text)
+    line1 = []
+    line2 = []
+    line3 = []
+    braille.each do |braille_char|
+      line1 << braille_char[0]
+      line2 << braille_char[1]
+      line3 << braille_char[2]
+    end
+    lines = [line1.flatten.join, line2.flatten.join, line3.flatten.join]
+  end
 end
 
-a_night_writer = NightWriter.new
-a_night_writer.encode_file_to_braille
+# a_night_writer = NightWriter.new
+# a_night_writer.encode_file_to_braille
 
 # puts ARGV.inspect
