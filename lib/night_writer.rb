@@ -32,6 +32,10 @@ class NightWriter
     char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
   end
 
+  def is_a_number?(thing)
+    thing.to_i != 0 || thing == "0"
+  end
+
   def map_chars_to_braille(text)
     text_chars = split_text_to_chars(text)
     text_braille = []
