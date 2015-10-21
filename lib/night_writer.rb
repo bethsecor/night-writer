@@ -32,16 +32,24 @@ class NightWriter
     char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
   end
 
-  def is_a_number?(thing)
-    thing.to_i != 0 || thing == "0"
+  def is_a_number?(char)
+    char.to_i != 0 || char == "0"
   end
 
   def map_chars_to_braille(text)
     text_chars = split_text_to_chars(text)
     text_braille = []
+    number_follows = true
     text_chars.each do |char|
-      text_braille << ALPHABET_TO_BRAILLE[:capital] if capital_letter?(char)
-      text_braille << ALPHABET_TO_BRAILLE[char.downcase]
+      number_follows = true if [" ",".",","].include?(char)
+      if is_a_number?(char)
+        text_braille << NUMBERS_TO_BRAILLE[:number] if number_follows == true
+        text_braille << NUMBERS_TO_BRAILLE[char]
+        number_follows = false
+      else
+        text_braille << ALPHABET_TO_BRAILLE[:capital] if capital_letter?(char)
+        text_braille << ALPHABET_TO_BRAILLE[char.downcase]
+      end
     end
     text_braille
   end
