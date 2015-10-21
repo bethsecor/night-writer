@@ -85,6 +85,12 @@ braille_lines_for_print = []
 end
 puts braille_lines_for_print.join
 
+# Matt's suggestions:
+converter = BrailleConverter.new
+text_chars.each do |char|
+  text_braille << converter.to_braille(char)
+end
+
 
 # every 80 chars, insert \n
 # will not work, wraps each line

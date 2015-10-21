@@ -21,6 +21,10 @@ class NightWriter
   end
 
   def encode_to_braille(input)
+    # text_chars = split_text_to_chars(input)
+    # mapped_braille = map_chars_to_braille(text_chars)
+    # formated_braille = format_braille_to_lines(mapped_braille)
+    # wrap_braille_lines_after_80_chars(formated_braille)
     wrap_braille_lines_after_80_chars(input)
   end
 

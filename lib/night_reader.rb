@@ -1,5 +1,5 @@
 # ruby ./lib/night_reader.rb braille.txt message.txt
-# ruby ./lib/night_reader.rb braille.txt message_decoded.txt
+# ruby ./lib/night_reader.rb message_letters_numbers_braille.txt message_decoded.txt
 
 require './lib/file_reader'
 require './lib/file_writer'
