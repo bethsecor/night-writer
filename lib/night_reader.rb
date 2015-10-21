@@ -12,4 +12,14 @@ class NightReader
     @writer = FileWriter.new
   end
 
+  def decode_file_to_text
+    braille = @reader.read
+    plain = decode_to_text(braille)
+    @writer.write(plain)
+  end
+
+  def decode_to_text
+    
+  end
+
 end
