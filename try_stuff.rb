@@ -41,8 +41,8 @@ require './alphabet_to_braille'
 puts ALPHABET_TO_BRAILLE.values.length
 puts ALPHABET_TO_BRAILLE.values.uniq.length
 
-# text = "Hello World! My name is Beth.\nHow are you?\n"
-text = "Hello,\nWorld!\n"
+text = "Hello World! My name is Beth.\nHow are you?\nI go to seek a Great Perhaps. Smile, breathe, and go slowly.\n"
+# text = "Hello,\nWorld!\n"
 text_chars = text.chomp.gsub("\n", " ").split("")
 # puts text_chars.to_s
 # text_chars.map { |char| alphabet_to_braille[char] }
@@ -70,9 +70,20 @@ end
 
 
 lines = [line1.flatten.join, line2.flatten.join, line3.flatten.join]
-puts lines.to_s
+puts lines
 puts lines[0].length
+lines_split_80 = lines.map {|line| line.scan(/.{1,80}/m)}
+puts lines_split_80.to_s
+# puts lines.map! { |line| line.insert(80, "\n")}
+binding.pry
 
+puts lines_split_80[0][0] + "\n" + lines_split_80[1][0] + "\n" + lines_split_80[2][0]
+
+braille_lines_for_print = []
+0.upto(lines_split_80[0].length-1) do |i|
+  braille_lines_for_print << lines_split_80[0][i] + "\n" + lines_split_80[1][i] + "\n" + lines_split_80[2][i] + "\n"
+end
+puts braille_lines_for_print.join
 
 
 # every 80 chars, insert \n

@@ -52,9 +52,10 @@ class NightWriterTest < Minitest::Test
   end
 
   def test_wrap_braille_lines_after_80_chars
-    text = "Hello World! My name is Beth.\nHow are you?\n"
+    text = "Hello World! My name is Beth.\nHow are you?\nI go to seek a Great Perhaps. Smile, breathe, and go slowly.\n"
     a_night_writer = NightWriter.new
-    assert_equal "something", a_night_writer.wrap_braille_lines_after_80_chars(text)
+    assert_equal "..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.\n..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....\n.0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....\n0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0..\n00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00\n0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0\n.....000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..\n....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000\n...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0\n",
+     a_night_writer.wrap_braille_lines_after_80_chars(text)
   end
 
 end

@@ -14,22 +14,14 @@ class NightWriter
     @writer = FileWriter.new
   end
 
-  def encode_file_to_braille #(to_file=ARGV[1])
-    # I wouldn't worry about testing this method
-    # unless you get everything else done
+  def encode_file_to_braille
     plain = @reader.read
     braille = encode_to_braille(plain)
-    #binding.pry
     @writer.write(braille)
-
   end
 
   def encode_to_braille(input)
-    # "MAGIC!"
-    input * 3
-    # you've taken in an INPUT string
-    # do the magic
-    # send out an OUTPUT string
+    wrap_braille_lines_after_80_chars(input)
   end
 
   def split_text_to_chars(text)
@@ -62,9 +54,19 @@ class NightWriter
     end
     lines = [line1.flatten.join, line2.flatten.join, line3.flatten.join]
   end
+
+  def wrap_braille_lines_after_80_chars(text)
+    lines = format_braille_to_lines(text)
+
+    lines_split_80 = lines.map {|line| line.scan(/.{1,80}/m)}
+
+    braille_lines_for_print = []
+    0.upto(lines_split_80[0].length-1) do |i|
+      braille_lines_for_print << lines_split_80[0][i] + "\n" + lines_split_80[1][i] + "\n" + lines_split_80[2][i] + "\n"
+    end
+    braille_lines_for_print.join
+  end
 end
 
-# a_night_writer = NightWriter.new
-# a_night_writer.encode_file_to_braille
-
-# puts ARGV.inspect
+night_writer = NightWriter.new
+night_writer.encode_file_to_braille
