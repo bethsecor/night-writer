@@ -52,7 +52,7 @@ text_chars.each do |char|
   text_braille << ALPHABET_TO_BRAILLE[:capital] if char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
   text_braille << ALPHABET_TO_BRAILLE[char.downcase]
 end
-puts text_braille.to_s
+# puts text_braille.to_s
 
 # test = [[["a", "a"], ["b", "b"], ["c", "c"]],
 #        [["a", "a"], ["b", "b"], ["c", "c"]],
@@ -70,26 +70,27 @@ end
 
 
 lines = [line1.flatten.join, line2.flatten.join, line3.flatten.join]
-puts lines
-puts lines[0].length
-lines_split_80 = lines.map {|line| line.scan(/.{1,80}/m)}
-puts lines_split_80.to_s
-# puts lines.map! { |line| line.insert(80, "\n")}
-binding.pry
-
-puts lines_split_80[0][0] + "\n" + lines_split_80[1][0] + "\n" + lines_split_80[2][0]
-
-braille_lines_for_print = []
-0.upto(lines_split_80[0].length-1) do |i|
-  braille_lines_for_print << lines_split_80[0][i] + "\n" + lines_split_80[1][i] + "\n" + lines_split_80[2][i] + "\n"
-end
-puts braille_lines_for_print.join
+puts lines.to_s
+#
+# puts lines[0].length
+# lines_split_80 = lines.map {|line| line.scan(/.{1,80}/m)}
+# puts lines_split_80.to_s
+# # puts lines.map! { |line| line.insert(80, "\n")}
+# binding.pry
+#
+# puts lines_split_80[0][0] + "\n" + lines_split_80[1][0] + "\n" + lines_split_80[2][0]
+#
+# braille_lines_for_print = []
+# 0.upto(lines_split_80[0].length-1) do |i|
+#   braille_lines_for_print << lines_split_80[0][i] + "\n" + lines_split_80[1][i] + "\n" + lines_split_80[2][i] + "\n"
+# end
+# puts braille_lines_for_print.join
 
 # Matt's suggestions:
-converter = BrailleConverter.new
-text_chars.each do |char|
-  text_braille << converter.to_braille(char)
-end
+# converter = BrailleConverter.new
+# text_chars.each do |char|
+#   text_braille << converter.to_braille(char)
+# end
 
 
 # every 80 chars, insert \n

@@ -23,7 +23,7 @@ loop do
   braille_chars << [line1_chars.shift(2), line2_chars.shift(2), line3_chars.shift(2)]
   break if line3_chars.empty?
 end
-# puts braille_chars.to_s
+puts braille_chars.to_s
 
 braille_text = []
 number_follows = false
