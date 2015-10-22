@@ -13,6 +13,7 @@ line1 = line1_indices.map{ |index| lines_split_80[index] }.join
 line2 = line2_indices.map{ |index| lines_split_80[index] }.join
 line3 = line3_indices.map{ |index| lines_split_80[index] }.join
 
+
 line1_chars = line1.split("")
 line2_chars = line2.split("")
 line3_chars = line3.split("")
