@@ -21,14 +21,12 @@ class NightWriter
   end
 
   def encode_to_braille(text)
-    if text != ""
-      text_chars = split_text_to_chars(text)
-      mapped_braille = map_chars_to_braille(text_chars)
-      formated_braille = format_braille_to_lines(mapped_braille)
-      wrap_braille_lines_after_80_chars(formated_braille)
-    else
-      ""
-    end
+    return "" if text.empty?
+
+    text_chars = split_text_to_chars(text)
+    mapped_braille = map_chars_to_braille(text_chars)
+    formated_braille = format_braille_to_lines(mapped_braille)
+    wrap_braille_lines_after_80_chars(formated_braille)
   end
 
   def split_text_to_chars(text)
@@ -36,7 +34,8 @@ class NightWriter
   end
 
   def capital_letter?(char)
-    char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
+    ('A'..'Z').include?(char)
+    #char == char.upcase && ('a'...'z').to_a.include?(char.downcase)
   end
 
   def is_a_number?(char)
