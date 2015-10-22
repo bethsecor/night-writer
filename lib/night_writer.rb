@@ -1,4 +1,4 @@
-# ruby ./lib/night_writer.rb message.txt braille_test2.txt
+# ruby ./lib/night_writer.rb message.txt braille2.txt
 
 require './lib/file_reader'
 require './lib/file_writer'

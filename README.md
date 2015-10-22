@@ -1,1 +1,1 @@
-# Beth Secor's Night Writer Project for Turing
+Beth Secor's Night Writer Project for Turing
