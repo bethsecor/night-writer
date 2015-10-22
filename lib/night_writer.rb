@@ -2,7 +2,7 @@
 
 require './lib/file_reader'
 require './lib/file_writer'
-require './lib/alphabet_to_braille'
+require './lib/braille_dictionary'
 require 'pry'
 
 class NightWriter
@@ -47,12 +47,12 @@ class NightWriter
     text_chars.each do |char|
       number_follows = true if [" ",".",","].include?(char)
       if is_a_number?(char)
-        text_braille << NUMBERS_TO_BRAILLE[:number] if number_follows == true
-        text_braille << NUMBERS_TO_BRAILLE[char]
+        text_braille << BrailleDictionary::NUMBERS_TO_BRAILLE[:number] if number_follows == true
+        text_braille << BrailleDictionary::NUMBERS_TO_BRAILLE[char]
         number_follows = false
       else
-        text_braille << ALPHABET_TO_BRAILLE[:capital] if capital_letter?(char)
-        text_braille << ALPHABET_TO_BRAILLE[char.downcase]
+        text_braille << BrailleDictionary::LETTERS_TO_BRAILLE[:capital] if capital_letter?(char)
+        text_braille << BrailleDictionary::LETTERS_TO_BRAILLE[char.downcase]
       end
     end
     text_braille

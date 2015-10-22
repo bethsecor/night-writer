@@ -58,9 +58,9 @@ class NightReader
       number_follows = true if braille_char == [[".", "0"], [".", "0"], ["0", "0"]]
       number_follows = false if [[[".", "."], [".", "."], [".", "."]],[[".", "."], ["0", "0"], [".", "0"]],[[".", "."], ["0", "."], [".", "."]]].include?(braille_char)
         if number_follows
-          latin_text_characters << BRAILLE_TO_NUMBERS[braille_char]
+          latin_text_characters << BrailleDictionary::BRAILLE_TO_NUMBERS[braille_char]
         else
-          latin_text_characters << BRAILLE_TO_ALPHABET[braille_char]
+          latin_text_characters << BrailleDictionary::BRAILLE_TO_LETTERS[braille_char]
         end
     end
     latin_text_characters
