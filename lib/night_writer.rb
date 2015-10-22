@@ -44,7 +44,6 @@ class NightWriter
   end
 
   def map_chars_to_braille(text_characters)
-    #text_chars = split_text_to_chars(text)
     braille_characters = []
     number_follows = true
     text_characters.each do |char|
@@ -62,7 +61,6 @@ class NightWriter
   end
 
   def format_braille_to_lines(braille_characters)
-    #braille = map_chars_to_braille(text)
     line1 = []
     line2 = []
     line3 = []
@@ -75,8 +73,6 @@ class NightWriter
   end
 
   def wrap_braille_lines_after_80_chars(formated_braille_lines)
-    #lines = format_braille_to_lines(text)
-
     lines_split_80 = formated_braille_lines.map {|line| line.scan(/.{1,80}/m)}
 
     braille_lines_for_print = []
