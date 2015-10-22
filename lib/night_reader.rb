@@ -1,6 +1,3 @@
-# ruby ./lib/night_reader.rb braille.txt message.txt
-# ruby ./lib/night_reader.rb message_letters_numbers_braille.txt message_decoded.txt
-
 require './lib/file_reader'
 require './lib/file_writer'
 require './lib/braille_dictionary'
@@ -17,16 +14,19 @@ class NightReader
 
   def decode_file_to_text
     braille = @reader.read
-    # binding.pry
     plain = decode_to_text(braille)
     @writer.write(plain)
   end
 
-  def decode_to_text(input)
-    braille_chars = braille_lines_formatting(input)
-    latin_text_chars = map_braille_chars_to_latin_alphabet(braille_chars)
-    latin_text = format_and_join_latin_characters(latin_text_chars)
-    latin_text
+  def decode_to_text(braille)
+    if braille != ""
+      braille_chars = braille_lines_formatting(braille)
+      latin_text_chars = map_braille_chars_to_latin_alphabet(braille_chars)
+      latin_text = format_and_join_latin_characters(latin_text_chars)
+      latin_text
+    else
+      ""
+    end
   end
 
   def braille_lines_formatting(braille)
@@ -56,7 +56,9 @@ class NightReader
     number_follows = false
     braille_characters.each do |braille_char|
       number_follows = true if braille_char == [[".", "0"], [".", "0"], ["0", "0"]]
-      number_follows = false if [[[".", "."], [".", "."], [".", "."]],[[".", "."], ["0", "0"], [".", "0"]],[[".", "."], ["0", "."], [".", "."]]].include?(braille_char)
+      number_follows = false if [[[".", "."], [".", "."], [".", "."]],
+                                 [[".", "."], ["0", "0"], [".", "0"]],
+                                 [[".", "."], ["0", "."], [".", "."]]].include?(braille_char)
         if number_follows
           latin_text_characters << BrailleDictionary::BRAILLE_TO_NUMBERS[braille_char]
         else
@@ -82,3 +84,6 @@ end
 
 night_reader = NightReader.new
 night_reader.decode_file_to_text
+
+# ruby ./lib/night_reader.rb braille.txt message.txt
+# ruby ./lib/night_reader.rb message_letters_numbers_braille.txt message_decoded.txt

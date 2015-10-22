@@ -20,11 +20,15 @@ class NightWriter
     @writer.write(braille)
   end
 
-  def encode_to_braille(input)
-    text_chars = split_text_to_chars(input)
-    mapped_braille = map_chars_to_braille(text_chars)
-    formated_braille = format_braille_to_lines(mapped_braille)
-    wrap_braille_lines_after_80_chars(formated_braille)
+  def encode_to_braille(text)
+    if text != ""
+      text_chars = split_text_to_chars(text)
+      mapped_braille = map_chars_to_braille(text_chars)
+      formated_braille = format_braille_to_lines(mapped_braille)
+      wrap_braille_lines_after_80_chars(formated_braille)
+    else
+      ""
+    end
   end
 
   def split_text_to_chars(text)
