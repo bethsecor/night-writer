@@ -18,135 +18,13 @@ class NightWriterTest < Minitest::Test
     assert a_night_writer.respond_to?(:wrap_braille_lines_after_80_chars)
   end
 
-  def test_split_text_to_chars
-    text = "Hello,\nWorld!\n"
-    a_night_writer = NightWriter.new
-    assert_equal ["H", "e", "l", "l", "o", ",", " ", "W", "o", "r", "l", "d", "!"],
-     a_night_writer.split_text_to_chars(text)
-  end
-
-  def test_capital_letter?
-    a_night_writer = NightWriter.new
-    assert a_night_writer.capital_letter?("A")
-    refute a_night_writer.capital_letter?("a")
-  end
-
-  def test_is_a_number?
-    a_night_writer = NightWriter.new
-    char1 = "0"
-    char2 = "a"
-    char3 = "7"
-    assert a_night_writer.is_a_number?(char1)
-    refute a_night_writer.is_a_number?(char2)
-    assert a_night_writer.is_a_number?(char3)
-  end
-
-  def test_map_chars_to_braille_simple_text
-    text_chars = ["H", "e", "l", "l", "o", ",", " ", "W", "o", "r", "l", "d", "!"]
-    a_night_writer = NightWriter.new
-    assert_equal [[[".", "."], [".", "."], [".", "0"]],
-                  [["0", "."], ["0", "0"], [".", "."]],
-                  [["0", "."], [".", "0"], [".", "."]],
-                  [["0", "."], ["0", "."], ["0", "."]],
-                  [["0", "."], ["0", "."], ["0", "."]],
-                  [["0", "."], [".", "0"], ["0", "."]],
-                  [[".", "."], ["0", "."], [".", "."]],
-                  [[".", "."], [".", "."], [".", "."]],
-                  [[".", "."], [".", "."], [".", "0"]],
-                  [[".", "0"], ["0", "0"], [".", "0"]],
-                  [["0", "."], [".", "0"], ["0", "."]],
-                  [["0", "."], ["0", "0"], ["0", "."]],
-                  [["0", "."], ["0", "."], ["0", "."]],
-                  [["0", "0"], [".", "0"], [".", "."]],
-                  [[".", "."], ["0", "0"], ["0", "."]]], a_night_writer.map_chars_to_braille(text_chars)
-  end
-
-  def test_map_chars_to_braille_one_number
-    text_chars = ["7", "8", "0"]
-    a_night_writer = NightWriter.new
-    assert_equal [[[".", "0"], [".", "0"], ["0", "0"]],
-                  [["0", "0"], ["0", "0"], [".", "."]],
-                  [["0", "."], ["0", "0"], [".", "."]],
-                  [[".", "0"], ["0", "0"], [".", "."]]], a_night_writer.map_chars_to_braille(text_chars)
-  end
-
-  def test_map_chars_to_braille_decimal_number
-    text_chars = ["3", ".", "1", "4"]
-    a_night_writer = NightWriter.new
-    assert_equal [[[".", "0"], [".", "0"], ["0", "0"]],
-                  [["0", "0"], [".", "."], [".", "."]],
-                  [[".", "."], ["0", "0"], [".", "0"]],
-                  [[".", "0"], [".", "0"], ["0", "0"]],
-                  [["0", "."], [".", "."], [".", "."]],
-                  [["0", "0"], [".", "0"], [".", "."]]], a_night_writer.map_chars_to_braille(text_chars)
-  end
-
-  def test_map_chars_to_braille_simple_text_and_numbers
-    text_chars = ["3", ".", "1", "4", " ", "i", "s", " ", "P", "i", "E", "!"]
-    a_night_writer = NightWriter.new
-    assert_equal [[[".", "0"], [".", "0"], ["0", "0"]],
-                  [["0", "0"], [".", "."], [".", "."]],
-                  [[".", "."], ["0", "0"], [".", "0"]],
-                  [[".", "0"], [".", "0"], ["0", "0"]],
-                  [["0", "."], [".", "."], [".", "."]],
-                  [["0", "0"], [".", "0"], [".", "."]],
-                  [[".", "."], [".", "."], [".", "."]],
-                  [[".", "0"], ["0", "."], [".", "."]],
-                  [[".", "0"], ["0", "."], ["0", "."]],
-                  [[".", "."], [".", "."], [".", "."]],
-                  [[".", "."], [".", "."], [".", "0"]],
-                  [["0", "0"], ["0", "."], ["0", "."]],
-                  [[".", "0"], ["0", "."], [".", "."]],
-                  [[".", "."], [".", "."], [".", "0"]],
-                  [["0", "."], [".", "0"], [".", "."]],
-                  [[".", "."], ["0", "0"], ["0", "."]]], a_night_writer.map_chars_to_braille(text_chars)
-  end
-
-  def test_format_braille_to_lines
-    braille_characters = [[[".", "."], [".", "."], [".", "0"]],
-                          [["0", "."], ["0", "0"], [".", "."]],
-                          [["0", "."], [".", "0"], [".", "."]],
-                          [["0", "."], ["0", "."], ["0", "."]],
-                          [["0", "."], ["0", "."], ["0", "."]],
-                          [["0", "."], [".", "0"], ["0", "."]],
-                          [[".", "."], ["0", "."], [".", "."]],
-                          [[".", "."], [".", "."], [".", "."]],
-                          [[".", "."], [".", "."], [".", "0"]],
-                          [[".", "0"], ["0", "0"], [".", "0"]],
-                          [["0", "."], [".", "0"], ["0", "."]],
-                          [["0", "."], ["0", "0"], ["0", "."]],
-                          [["0", "."], ["0", "."], ["0", "."]],
-                          [["0", "0"], [".", "0"], [".", "."]],
-                          [[".", "."], ["0", "0"], ["0", "."]]]
-    a_night_writer = NightWriter.new
-    assert_equal ["..0.0.0.0.0........00.0.0.00..",
-                  "..00.00.0..00.....00.0000..000",
-                  ".0....0.0.0......0.00.0.0...0."], a_night_writer.format_braille_to_lines(braille_characters)
-  end
-
-  def test_wrap_braille_lines_after_80_chars
-    braille_lines = ["..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0.......000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..",
-                     "..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000",
-                     ".0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0"]
-    a_night_writer = NightWriter.new
-    assert_equal "..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.\n..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....\n.0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....\n0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0..\n00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00\n0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0\n.....000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..\n....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000\n...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0\n",
-     a_night_writer.wrap_braille_lines_after_80_chars(braille_lines)
-  end
-
-  def test_encode_to_braille_long_message
-    text = "Hello World! My name is Beth.\nHow are you?\nI go to seek a Great Perhaps. Smile, breathe, and go slowly.\n"
-    a_night_writer = NightWriter.new
-    assert_equal "..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.\n..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....\n.0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....\n0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0..\n00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00\n0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0\n.....000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..\n....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000\n...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0\n",
-     a_night_writer.encode_to_braille(text)
-  end
-
   def test_encode_to_braille_empty_text
     a_night_writer = NightWriter.new
     empty_text = ""
     assert_equal "", a_night_writer.encode_to_braille(empty_text)
   end
 
-  def test_encode_to_braille_
+  def test_encode_to_braille_single_space
     a_night_writer = NightWriter.new
     text = " "
     assert_equal "..\n..\n..\n", a_night_writer.encode_to_braille(text)
@@ -308,5 +186,242 @@ class NightWriterTest < Minitest::Test
     assert_equal "0.\n.0\n00\n", a_night_writer.encode_to_braille(text)
   end
 
+  def test_encode_to_braille_capital_A
+    a_night_writer = NightWriter.new
+    text = "A"
+    assert_equal "..0.\n....\n.0..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_0
+    a_night_writer = NightWriter.new
+    text = "0"
+    assert_equal ".0.0\n.000\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_1
+    a_night_writer = NightWriter.new
+    text = "1"
+    assert_equal ".00.\n.0..\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_2
+    a_night_writer = NightWriter.new
+    text = "2"
+    assert_equal ".00.\n.00.\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_3
+    a_night_writer = NightWriter.new
+    text = "3"
+    assert_equal ".000\n.0..\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_4
+    a_night_writer = NightWriter.new
+    text = "4"
+    assert_equal ".000\n.0.0\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_5
+    a_night_writer = NightWriter.new
+    text = "5"
+    assert_equal ".00.\n.0.0\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_6
+    a_night_writer = NightWriter.new
+    text = "6"
+    assert_equal ".000\n.00.\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_7
+    a_night_writer = NightWriter.new
+    text = "7"
+    assert_equal ".000\n.000\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_8
+    a_night_writer = NightWriter.new
+    text = "8"
+    assert_equal ".00.\n.000\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_9
+    a_night_writer = NightWriter.new
+    text = "9"
+    assert_equal ".0.0\n.00.\n00..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_period
+    a_night_writer = NightWriter.new
+    text = "."
+    assert_equal "..\n00\n.0\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_comma
+    a_night_writer = NightWriter.new
+    text = ","
+    assert_equal "..\n0.\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_exclamation_point
+    a_night_writer = NightWriter.new
+    text = "!"
+    assert_equal "..\n00\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_question_mark
+    a_night_writer = NightWriter.new
+    text = "?"
+    assert_equal "..\n0.\n00\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_apostrophe
+    a_night_writer = NightWriter.new
+    text = "'"
+    assert_equal "..\n..\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_hyphen
+    a_night_writer = NightWriter.new
+    text = "-"
+    assert_equal "..\n..\n00\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_short_message
+    text = "The number 3.14 is Pi!"
+    a_night_writer = NightWriter.new
+    assert_equal "...00.0...000.000.0.0....000...00.00...0.0....00.0..\n..0000.0...0....0..000...0..00.0...0..0.0.....0.0.00\n.00.......0.000.....0...00...000........0....00...0.\n",
+     a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_long_message
+    text = "Hello World! My name is Beth.\nHow are you?\nI go to seek a Great Perhaps. Smile, breathe, and go slowly.\n"
+    a_night_writer = NightWriter.new
+    assert_equal "..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.\n..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....\n.0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....\n0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0..\n00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00\n0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0\n.....000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..\n....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000\n...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0\n",
+     a_night_writer.encode_to_braille(text)
+  end
+
+  def test_split_text_to_chars
+    text = "Hello,\nWorld!\n"
+    a_night_writer = NightWriter.new
+    assert_equal ["H", "e", "l", "l", "o", ",", " ", "W", "o", "r", "l", "d", "!"],
+     a_night_writer.split_text_to_chars(text)
+  end
+
+  def test_capital_letter?
+    a_night_writer = NightWriter.new
+    assert a_night_writer.capital_letter?("A")
+    refute a_night_writer.capital_letter?("a")
+  end
+
+  def test_is_a_number?
+    a_night_writer = NightWriter.new
+    char1 = "0"
+    char2 = "a"
+    char3 = "7"
+    assert a_night_writer.is_a_number?(char1)
+    refute a_night_writer.is_a_number?(char2)
+    assert a_night_writer.is_a_number?(char3)
+  end
+
+  def test_map_chars_to_braille_simple_text
+    text_chars = ["H", "e", "l", "l", "o", ",", " ", "W", "o", "r", "l", "d", "!"]
+    a_night_writer = NightWriter.new
+    assert_equal [[[".", "."], [".", "."], [".", "0"]],
+                  [["0", "."], ["0", "0"], [".", "."]],
+                  [["0", "."], [".", "0"], [".", "."]],
+                  [["0", "."], ["0", "."], ["0", "."]],
+                  [["0", "."], ["0", "."], ["0", "."]],
+                  [["0", "."], [".", "0"], ["0", "."]],
+                  [[".", "."], ["0", "."], [".", "."]],
+                  [[".", "."], [".", "."], [".", "."]],
+                  [[".", "."], [".", "."], [".", "0"]],
+                  [[".", "0"], ["0", "0"], [".", "0"]],
+                  [["0", "."], [".", "0"], ["0", "."]],
+                  [["0", "."], ["0", "0"], ["0", "."]],
+                  [["0", "."], ["0", "."], ["0", "."]],
+                  [["0", "0"], [".", "0"], [".", "."]],
+                  [[".", "."], ["0", "0"], ["0", "."]]], a_night_writer.map_chars_to_braille(text_chars)
+  end
+
+  def test_map_chars_to_braille_one_number
+    text_chars = ["7", "8", "0"]
+    a_night_writer = NightWriter.new
+    assert_equal [[[".", "0"], [".", "0"], ["0", "0"]],
+                  [["0", "0"], ["0", "0"], [".", "."]],
+                  [["0", "."], ["0", "0"], [".", "."]],
+                  [[".", "0"], ["0", "0"], [".", "."]]], a_night_writer.map_chars_to_braille(text_chars)
+  end
+
+  def test_map_chars_to_braille_decimal_number
+    text_chars = ["3", ".", "1", "4"]
+    a_night_writer = NightWriter.new
+    assert_equal [[[".", "0"], [".", "0"], ["0", "0"]],
+                  [["0", "0"], [".", "."], [".", "."]],
+                  [[".", "."], ["0", "0"], [".", "0"]],
+                  [[".", "0"], [".", "0"], ["0", "0"]],
+                  [["0", "."], [".", "."], [".", "."]],
+                  [["0", "0"], [".", "0"], [".", "."]]], a_night_writer.map_chars_to_braille(text_chars)
+  end
+
+  def test_map_chars_to_braille_simple_text_and_numbers
+    text_chars = ["3", ".", "1", "4", " ", "i", "s", " ", "P", "i", "E", "!"]
+    a_night_writer = NightWriter.new
+    assert_equal [[[".", "0"], [".", "0"], ["0", "0"]],
+                  [["0", "0"], [".", "."], [".", "."]],
+                  [[".", "."], ["0", "0"], [".", "0"]],
+                  [[".", "0"], [".", "0"], ["0", "0"]],
+                  [["0", "."], [".", "."], [".", "."]],
+                  [["0", "0"], [".", "0"], [".", "."]],
+                  [[".", "."], [".", "."], [".", "."]],
+                  [[".", "0"], ["0", "."], [".", "."]],
+                  [[".", "0"], ["0", "."], ["0", "."]],
+                  [[".", "."], [".", "."], [".", "."]],
+                  [[".", "."], [".", "."], [".", "0"]],
+                  [["0", "0"], ["0", "."], ["0", "."]],
+                  [[".", "0"], ["0", "."], [".", "."]],
+                  [[".", "."], [".", "."], [".", "0"]],
+                  [["0", "."], [".", "0"], [".", "."]],
+                  [[".", "."], ["0", "0"], ["0", "."]]], a_night_writer.map_chars_to_braille(text_chars)
+  end
+
+  def test_format_braille_to_lines
+    braille_characters = [[[".", "."], [".", "."], [".", "0"]],
+                          [["0", "."], ["0", "0"], [".", "."]],
+                          [["0", "."], [".", "0"], [".", "."]],
+                          [["0", "."], ["0", "."], ["0", "."]],
+                          [["0", "."], ["0", "."], ["0", "."]],
+                          [["0", "."], [".", "0"], ["0", "."]],
+                          [[".", "."], ["0", "."], [".", "."]],
+                          [[".", "."], [".", "."], [".", "."]],
+                          [[".", "."], [".", "."], [".", "0"]],
+                          [[".", "0"], ["0", "0"], [".", "0"]],
+                          [["0", "."], [".", "0"], ["0", "."]],
+                          [["0", "."], ["0", "0"], ["0", "."]],
+                          [["0", "."], ["0", "."], ["0", "."]],
+                          [["0", "0"], [".", "0"], [".", "."]],
+                          [[".", "."], ["0", "0"], ["0", "."]]]
+    a_night_writer = NightWriter.new
+    assert_equal ["..0.0.0.0.0........00.0.0.00..",
+                  "..00.00.0..00.....00.0000..000",
+                  ".0....0.0.0......0.00.0.0...0."], a_night_writer.format_braille_to_lines(braille_characters)
+  end
+
+  def test_wrap_braille_lines_after_80_chars
+    braille_lines = ["..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0.......000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..",
+                     "..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000",
+                     ".0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0"]
+    a_night_writer = NightWriter.new
+    assert_equal "..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.\n..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....\n.0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....\n0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0..\n00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00\n0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0\n.....000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..\n....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000\n...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0\n",
+     a_night_writer.wrap_braille_lines_after_80_chars(braille_lines)
+  end
+
+  def test_encode_to_braille_long_message
+    text = "Hello World! My name is Beth.\nHow are you?\nI go to seek a Great Perhaps. Smile, breathe, and go slowly.\n"
+    a_night_writer = NightWriter.new
+    assert_equal "..0.0.0.0.0......00.0.0.00......0000..000.000....0.0....0.0..00.......0.0..0..0.\n..00.00.0..0....00.0000..000.......0...0.....0..0.0.....0..0000000....00.000....\n.0....0.0.0....0.00.0.0...0....00.00..0...0.......0....0....0....0...0..0..0....\n0.0...000.0........0..000....00....00.0.0...0.....000.0.0..0....000.0.0.0.00.0..\n00.0...0.0..0.....0...00.0..00.0..0..0.0..........0000.0..00....0..00000..0.0.00\n0.....000.0000...0......0...0.0...0.....0........0..0.....0....00...0.....0.0..0\n.....000.00.0.....0.0.0.0..00.0.....0.0000..000....00.0..00.00..\n....0...0.0..00...0.00.0..0000.00......0.0..00.0..0.0..0000..000\n...00.0...0.........0.....0...........0.......0...0.0.0..00.00.0\n",
+     a_night_writer.encode_to_braille(text)
+  end
 
 end

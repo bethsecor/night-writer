@@ -71,11 +71,13 @@ class NightReader
   def format_and_join_latin_characters(latin_text_characters)
     latin_text_characters.delete(:number)
 
-    loop do
-      i = latin_text_characters.index(:capital)
-      latin_text_characters[i+1] = latin_text_characters[i+1].capitalize
-      latin_text_characters.delete_at(i)
-      break if !latin_text_characters.include?(:capital)
+    if latin_text_characters.include?(:capital)
+      loop do
+        i = latin_text_characters.index(:capital)
+        latin_text_characters[i+1] = latin_text_characters[i+1].capitalize
+        latin_text_characters.delete_at(i)
+        break if !latin_text_characters.include?(:capital)
+      end
     end
     latin_text_characters.join
   end
