@@ -89,3 +89,4 @@ night_reader.decode_file_to_text
 
 # ruby ./lib/night_reader.rb braille.txt message.txt
 # ruby ./lib/night_reader.rb message_letters_numbers_braille.txt message_decoded.txt
+# ruby ./lib/night_reader.rb all_the_light_we_cannot_see_quote_braille.txt all_the_light_we_cannot_see_quote_back.txt
