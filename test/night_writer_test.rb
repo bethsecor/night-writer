@@ -145,4 +145,168 @@ class NightWriterTest < Minitest::Test
     empty_text = ""
     assert_equal "", a_night_writer.encode_to_braille(empty_text)
   end
+
+  def test_encode_to_braille_
+    a_night_writer = NightWriter.new
+    text = " "
+    assert_equal "..\n..\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_a
+    a_night_writer = NightWriter.new
+    text = "a"
+    assert_equal "0.\n..\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_b
+    a_night_writer = NightWriter.new
+    text = "b"
+    assert_equal "0.\n0.\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_c
+    a_night_writer = NightWriter.new
+    text = "c"
+    assert_equal "00\n..\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_d
+    a_night_writer = NightWriter.new
+    text = "d"
+    assert_equal "00\n.0\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_e
+    a_night_writer = NightWriter.new
+    text = "e"
+    assert_equal "0.\n.0\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_f
+    a_night_writer = NightWriter.new
+    text = "f"
+    assert_equal "00\n0.\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_g
+    a_night_writer = NightWriter.new
+    text = "g"
+    assert_equal "00\n00\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_h
+    a_night_writer = NightWriter.new
+    text = "h"
+    assert_equal "0.\n00\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_i
+    a_night_writer = NightWriter.new
+    text = "i"
+    assert_equal ".0\n0.\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_j
+    a_night_writer = NightWriter.new
+    text = "j"
+    assert_equal ".0\n00\n..\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_k
+    a_night_writer = NightWriter.new
+    text = "k"
+    assert_equal "0.\n..\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_l
+    a_night_writer = NightWriter.new
+    text = "l"
+    assert_equal "0.\n0.\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_m
+    a_night_writer = NightWriter.new
+    text = "m"
+    assert_equal "00\n..\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_n
+    a_night_writer = NightWriter.new
+    text = "n"
+    assert_equal "00\n.0\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_o
+    a_night_writer = NightWriter.new
+    text = "o"
+    assert_equal "0.\n.0\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_p
+    a_night_writer = NightWriter.new
+    text = "p"
+    assert_equal "00\n0.\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_q
+    a_night_writer = NightWriter.new
+    text = "q"
+    assert_equal "00\n00\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_r
+    a_night_writer = NightWriter.new
+    text = "r"
+    assert_equal "0.\n00\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_s
+    a_night_writer = NightWriter.new
+    text = "s"
+    assert_equal ".0\n0.\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_t
+    a_night_writer = NightWriter.new
+    text = "t"
+    assert_equal ".0\n00\n0.\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_u
+    a_night_writer = NightWriter.new
+    text = "u"
+    assert_equal "0.\n..\n00\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_v
+    a_night_writer = NightWriter.new
+    text = "v"
+    assert_equal "0.\n0.\n00\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_w
+    a_night_writer = NightWriter.new
+    text = "w"
+    assert_equal ".0\n00\n.0\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_x
+    a_night_writer = NightWriter.new
+    text = "x"
+    assert_equal "00\n..\n00\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_y
+    a_night_writer = NightWriter.new
+    text = "y"
+    assert_equal "00\n.0\n00\n", a_night_writer.encode_to_braille(text)
+  end
+
+  def test_encode_to_braille_z
+    a_night_writer = NightWriter.new
+    text = "z"
+    assert_equal "0.\n.0\n00\n", a_night_writer.encode_to_braille(text)
+  end
+
+
 end
