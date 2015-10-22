@@ -3,7 +3,7 @@
 
 require './lib/file_reader'
 require './lib/file_writer'
-require './lib/alphabet_to_braille'
+require './lib/braille_dictionary'
 require 'pry'
 
 class NightReader

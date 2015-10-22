@@ -57,6 +57,3 @@ class BrailleDictionary
 
     BRAILLE_TO_NUMBERS = NUMBERS_TO_BRAILLE.invert
 end
-
-
-# puts BrailleDictionary::NUMBERS_TO_BRAILLE

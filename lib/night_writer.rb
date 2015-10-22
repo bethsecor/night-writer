@@ -1,4 +1,4 @@
-# ruby ./lib/night_writer.rb message.txt braille.txt
+# ruby ./lib/night_writer.rb message.txt braille_test2.txt
 
 require './lib/file_reader'
 require './lib/file_writer'
@@ -21,11 +21,12 @@ class NightWriter
   end
 
   def encode_to_braille(input)
-    # text_chars = split_text_to_chars(input)
-    # mapped_braille = map_chars_to_braille(text_chars)
-    # formated_braille = format_braille_to_lines(mapped_braille)
-    # wrap_braille_lines_after_80_chars(formated_braille)
-    wrap_braille_lines_after_80_chars(input)
+    text_chars = split_text_to_chars(input)
+    mapped_braille = map_chars_to_braille(text_chars)
+    formated_braille = format_braille_to_lines(mapped_braille)
+    wrap_braille_lines_after_80_chars(formated_braille)
+
+    # wrap_braille_lines_after_80_chars(input)
   end
 
   def split_text_to_chars(text)
@@ -40,41 +41,41 @@ class NightWriter
     char.to_i != 0 || char == "0"
   end
 
-  def map_chars_to_braille(text)
-    text_chars = split_text_to_chars(text)
-    text_braille = []
+  def map_chars_to_braille(text_characters)
+    #text_chars = split_text_to_chars(text)
+    braille_characters = []
     number_follows = true
-    text_chars.each do |char|
+    text_characters.each do |char|
       number_follows = true if [" ",".",","].include?(char)
       if is_a_number?(char)
-        text_braille << BrailleDictionary::NUMBERS_TO_BRAILLE[:number] if number_follows == true
-        text_braille << BrailleDictionary::NUMBERS_TO_BRAILLE[char]
+        braille_characters << BrailleDictionary::NUMBERS_TO_BRAILLE[:number] if number_follows == true
+        braille_characters << BrailleDictionary::NUMBERS_TO_BRAILLE[char]
         number_follows = false
       else
-        text_braille << BrailleDictionary::LETTERS_TO_BRAILLE[:capital] if capital_letter?(char)
-        text_braille << BrailleDictionary::LETTERS_TO_BRAILLE[char.downcase]
+        braille_characters << BrailleDictionary::LETTERS_TO_BRAILLE[:capital] if capital_letter?(char)
+        braille_characters << BrailleDictionary::LETTERS_TO_BRAILLE[char.downcase]
       end
     end
-    text_braille
+    braille_characters
   end
 
-  def format_braille_to_lines(text)
-    braille = map_chars_to_braille(text)
+  def format_braille_to_lines(braille_characters)
+    #braille = map_chars_to_braille(text)
     line1 = []
     line2 = []
     line3 = []
-    braille.each do |braille_char|
+    braille_characters.each do |braille_char|
       line1 << braille_char[0]
       line2 << braille_char[1]
       line3 << braille_char[2]
     end
-    lines = [line1.flatten.join, line2.flatten.join, line3.flatten.join]
+    formated_braille_lines = [line1.flatten.join, line2.flatten.join, line3.flatten.join]
   end
 
-  def wrap_braille_lines_after_80_chars(text)
-    lines = format_braille_to_lines(text)
+  def wrap_braille_lines_after_80_chars(formated_braille_lines)
+    #lines = format_braille_to_lines(text)
 
-    lines_split_80 = lines.map {|line| line.scan(/.{1,80}/m)}
+    lines_split_80 = formated_braille_lines.map {|line| line.scan(/.{1,80}/m)}
 
     braille_lines_for_print = []
     0.upto(lines_split_80[0].length-1) do |i|
